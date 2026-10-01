@@ -1,6 +1,6 @@
 # Build a Photos face
 
-Create a new face file, then ask Watch to import it on iPhone.
+Create a new face file, then ask the system to import it on iPhone or Apple Watch.
 
 The artwork is the complete image the wearer sees. If part of it should appear in front of the watch time, prepare a full-canvas grayscale mask in your app:
 

@@ -1,7 +1,7 @@
 <div>
   <h1>GrateFace <img src="Resources/icon/icon.png" alt="GrateFace icon" width="96" height="96" align="right"></h1>
   <p>Create a Photos watch face from artwork and an optional prepared mask.</p>
-  <p><img src="https://img.shields.io/badge/iOS-17%2B-000000?logo=apple" alt="iOS 17+"> <img src="https://img.shields.io/badge/macOS-14%2B-000000?logo=apple" alt="macOS 14+"> <img src="https://img.shields.io/badge/Swift-5.10%2B-F05138?logo=swift&amp;logoColor=white" alt="Swift 5.10+"></p>
+  <p><img src="https://img.shields.io/badge/iOS-17%2B-000000?logo=apple" alt="iOS 17+"> <img src="https://img.shields.io/badge/macOS-14%2B-000000?logo=apple" alt="macOS 14+"> <img src="https://img.shields.io/badge/watchOS-26%2B-000000?logo=apple" alt="watchOS 26+"> <img src="https://img.shields.io/badge/Swift-5.10%2B-F05138?logo=swift&amp;logoColor=white" alt="Swift 5.10+"></p>
 </div>
 
 GrateFace handles single-photo Photos faces with the watchOS 27 image-list format I found in faces exported from my watch. It includes a neutral Photos-face seed, replaces every embedded photo, mask, and preview image, and gives the generated photo a new identifier. Supply an optional prepared grayscale mask for clock overlap; without one, the face has no depth occlusion. Its read-only archive inspector can list files in other face types without attempting to generate them.
@@ -37,7 +37,7 @@ let faceURL = try GrateFaceWriter().makeFace(artwork: artwork, mask: subjectMask
 
 `artwork` is the complete image. `subjectMask` is an optional, already prepared grayscale image with the same pixel dimensions: white covers the clock, black leaves it visible. The host app decides what belongs in the mask and creates it. Omit `mask:` when no part should cover the clock. The returned URL points to a unique temporary file; keep it until import or sharing finishes, and copy it if it must persist. Advanced experiments can initialize `GrateFaceWriter(templateURL:)` with another exported Photos face.
 
-On iPhone, the app can then hand the resulting URL to `CLKWatchFaceLibrary().addWatchFace(at:)` or share the file.
+On iPhone or Apple Watch, the app can then hand the resulting URL to `CLKWatchFaceLibrary().addWatchFace(at:)` or share the file. The watchOS package target is declared but face generation on watch hardware has not yet been validated.
 
 ## Documentation
 
