@@ -1,0 +1,188 @@
+{
+  "features": [
+    "refractivity"
+  ],
+  "fill": {
+    "automatic-gradient": "display-p3:0.12600,0.16000,0.21000,1.00000"
+  },
+  "groups": [
+    {
+      "blur-material": 0.5,
+      "layers": [
+        {
+          "image-name": "Cheese Top.svg",
+          "name": "Cheese Top",
+          "position": {
+            "scale": 1,
+            "translation-in-points": [
+              0,
+              0
+            ]
+          }
+        }
+      ],
+      "lighting": "individual",
+      "position-specializations": [
+        {
+          "idiom": "square",
+          "value": {
+            "scale": 1,
+            "translation-in-points": [
+              -19,
+              0
+            ]
+          }
+        }
+      ],
+      "refractivity": {
+        "depth": 0.0387109375,
+        "enabled": true,
+        "strength": -0.1041796875
+      },
+      "shadow": {
+        "kind": "neutral",
+        "opacity": 0.12
+      },
+      "specular": true,
+      "translucency": {
+        "enabled": true,
+        "value": 0.5
+      }
+    },
+    {
+      "blur-material": 0.5,
+      "layers": [
+        {
+          "image-name": "Cheese Side.svg",
+          "name": "Cheese Side",
+          "position": {
+            "scale": 1,
+            "translation-in-points": [
+              0,
+              0
+            ]
+          }
+        }
+      ],
+      "lighting": "individual",
+      "position-specializations": [
+        {
+          "idiom": "square",
+          "value": {
+            "scale": 1,
+            "translation-in-points": [
+              -19,
+              0
+            ]
+          }
+        }
+      ],
+      "refractivity": {
+        "depth": 0.0387109375,
+        "enabled": true,
+        "strength": -0.1041796875
+      },
+      "shadow": {
+        "kind": "neutral",
+        "opacity": 0.42
+      },
+      "specular": true,
+      "translucency": {
+        "enabled": true,
+        "value": 0.5
+      }
+    },
+    {
+      "blur-material": 0.5,
+      "layers": [
+        {
+          "image-name": "Cheese Rind Top.svg",
+          "name": "Cheese Rind Top",
+          "position": {
+            "scale": 1,
+            "translation-in-points": [
+              0,
+              0
+            ]
+          }
+        }
+      ],
+      "lighting": "individual",
+      "position-specializations": [
+        {
+          "idiom": "square",
+          "value": {
+            "scale": 1,
+            "translation-in-points": [
+              -19,
+              0
+            ]
+          }
+        }
+      ],
+      "refractivity": {
+        "depth": 0.0387109375,
+        "enabled": true,
+        "strength": -0.1041796875
+      },
+      "shadow": {
+        "kind": "neutral",
+        "opacity": 0.42
+      },
+      "specular": true,
+      "translucency": {
+        "enabled": true,
+        "value": 0.5
+      }
+    },
+    {
+      "blur-material": 0.5,
+      "layers": [
+        {
+          "image-name": "Cheese Rind Side.svg",
+          "name": "Cheese Rind Side",
+          "position": {
+            "scale": 1,
+            "translation-in-points": [
+              0,
+              0
+            ]
+          }
+        }
+      ],
+      "lighting": "individual",
+      "position-specializations": [
+        {
+          "idiom": "square",
+          "value": {
+            "scale": 1,
+            "translation-in-points": [
+              -19,
+              0
+            ]
+          }
+        }
+      ],
+      "refractivity": {
+        "depth": 0.0387109375,
+        "enabled": true,
+        "strength": -0.1041796875
+      },
+      "shadow": {
+        "kind": "neutral",
+        "opacity": 0.42
+      },
+      "specular": true,
+      "translucency": {
+        "enabled": true,
+        "value": 0.5
+      }
+    }
+  ],
+  "supported-platforms": {
+    "circles": [
+      "watchOS"
+    ],
+    "squares": "shared"
+  }
+}

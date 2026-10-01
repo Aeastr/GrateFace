@@ -1,0 +1,9 @@
+.DS_Store
+**/.build/
+**/DerivedData/
+**/xcuserdata/
+**/*.xcuserstate
+*.watchface
+!Sources/GrateFace/Resources/Photos27Seed.watchface
+!Examples/PhotosLandscape.watchface
+Research/Private/
