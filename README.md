@@ -8,7 +8,7 @@ GrateFace handles single-photo Photos faces with the watchOS 27 image-list forma
 
 The [Photos experiment record](Research/Photos/Findings.md) documents each hardware result, the misleading watchOS-version error for blank masks, preview behavior, and what remains untested.
 
-The format writer is experimental because Apple only documents importing existing face files. Import can fail when the face format or watch compatibility changes. The caller receives a thrown validation, encoding, archive, or file error; successful generation does not prove successful Watch import. The generated previews show the new artwork without a clock. The framed preview draws a thin gray rim and black screen bezel measured from an exported Photos face. The corner reach defaults to 220 and can be changed with `GrateFaceWriter(previewCornerRadius:)` or the Lab slider.
+The format writer is experimental because Apple only documents importing existing face files. One mask-free file made by `GrateFaceWriter` has been added and displayed on a watch; masked output and broader compatibility remain untested. Import can fail when the face format or watch compatibility changes. The caller receives a thrown validation, encoding, archive, or file error; successful generation does not prove successful Watch import. The generated previews show the new artwork without a clock. The framed preview draws a thin gray rim and black screen bezel measured from an exported Photos face. The corner reach defaults to 220 and can be changed with `GrateFaceWriter(previewCornerRadius:)` or the Lab slider.
 
 ## Installation
 

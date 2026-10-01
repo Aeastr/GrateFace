@@ -6,4 +6,5 @@
 *.watchface
 !Sources/GrateFace/Resources/Photos27Seed.watchface
 !Examples/PhotosLandscape.watchface
+!Examples/WriterImportTest.watchface
 Research/Private/

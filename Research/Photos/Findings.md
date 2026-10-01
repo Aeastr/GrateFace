@@ -1,6 +1,6 @@
 # Photos watch face investigation
 
-I used a `Photos.watchface` file exported from my watch and a paired iPhone and Apple Watch running watchOS 27 for this experiment. I tested the generated files on the watch. The private source export, its photo, and the diagnostic face files are not included in GrateFace. The package includes a neutral seed derived from that export; every photo, mask, and snapshot payload was replaced, and the photo identifier was regenerated. The face style and layout metadata remain from the export. This seed has not yet been imported on a watch. Results below distinguish **device observations**, **archive inspection**, and **inferences**; an archive that opens as ZIP is not necessarily a face Watch will accept.
+I used a `Photos.watchface` file exported from my watch and a paired iPhone and Apple Watch running watchOS 27 for the initial experiment. I tested the diagnostic files on that watch. The private source export, its photo, and the diagnostic face files are not included in GrateFace. The package includes a neutral seed derived from that export; every photo, mask, and snapshot payload was replaced, and the photo identifier was regenerated. The face style and layout metadata remain from the export. The seed itself has not been imported on a watch, but a mask-free face generated from it by `GrateFaceWriter` has now been added and displayed on a watch. Results below distinguish **device observations**, **archive inspection**, and **inferences**; an archive that opens as ZIP is not necessarily a face Watch will accept.
 
 A separate [landscape example face](../../Examples/PhotosLandscape.watchface) was rebuilt from a later supplied export. Its embedded images were re-encoded, its export-specific photo identifier and resource filenames were replaced, and its ZIP timestamps were reset. The landscape itself was retained. This example is separate from the bundled seed and has not been tested on a watch.
 
@@ -10,7 +10,7 @@ I started investigating because I could choose **Create Watch Face** when sharin
 
 I confirmed that replacing the Photos face's embedded HEIC artwork can produce a face that adds to Watch and displays the replacement image. A new local photo identifier is accepted. For a face without a foreground subject, removing the mask references also produces an accepted face. For a depth face, Watch accepted newly generated, nonempty grayscale mask PNGs and the masked artwork visibly overlapped the clock. This establishes that the original photo and original subject mask are not required for the tested template.
 
-These findings cover **one exported face and one paired watchOS 27 setup**. They do not establish a general `.watchface` authoring specification, support for every Photos layout, or compatibility with other watchOS versions and watch models.
+The controlled diagnostic experiments cover **one exported face and one paired watchOS 27 setup**. A later writer-generated file was also confirmed on a watch, but its watch model and OS version were not recorded. These results do not establish a general `.watchface` authoring specification, support for every Photos layout, or compatibility with other watchOS versions and watch models.
 
 ## The observed archive
 
@@ -31,7 +31,7 @@ The `Images.plist` layout array also contains a small entry without a base image
 
 Neither `face.json` nor `metadata.json` changed in the controlled image, mask, or local-identifier variants. The generic rejection therefore has no observed connection to a change in those two metadata files. A change to the plist's `localIdentifier` was accepted, although broader metadata edits remain untested.
 
-In this format, the base **artwork** files are HEIC; the **masks and snapshots** are PNG. There were no JPEG assets in the observed archive. The original payload entries use ZIP deflate compression, with a separate uncompressed directory entry. The Python diagnostic swaps preserved the original entry order and ZIP entry metadata while replacing selected payloads. A freshly assembled Swift archive from GrateFace has not yet had the same device test.
+In this format, the base **artwork** files are HEIC; the **masks and snapshots** are PNG. There were no JPEG assets in the observed archive. The original payload entries use ZIP deflate compression, with a separate uncompressed directory entry. The Python diagnostic swaps preserved the original entry order and ZIP entry metadata while replacing selected payloads. The later Swift writer test establishes import for one mask-free output; it does not cover masks or other configurations.
 
 ## Experiment log
 
@@ -48,6 +48,7 @@ Every diagnostic variant started from the same face I exported. “Adds” means
 | `Deco-GeneratedMask` | Working minimal swap plus three newly generated, nonempty grayscale mask PNGs. The sample mask is a blurred rounded rectangle. | **Adds** and shows the Deco grid; I confirmed artwork visibly overlaps the clock. |
 | `Deco-PlistRoundTrip.watchface` | A plist serialization control with no intended value change. | **Not device-tested.** It was unnecessary after the no-mask and new-identifier results. |
 | `Deco-ConsistentIdentifier.watchface` | An identifier/resource-name exploration. | **Not device-tested.** Do not infer that renaming every resource works. |
+| [`WriterImportTest.watchface`](../../Examples/WriterImportTest.watchface) | `GrateFaceWriter` generated four new HEIC artwork assets and both previews from distinctive test art using the bundled seed; it removed all mask references and files and assigned a new photo identifier. ZIP integrity and resource counts were checked before import. | **Adds and displays on watch.** The user confirmed the colored artwork appeared on the watch on 2026-10-01. Watch model and OS version were not recorded. |
 
 The all-black masks were valid PNGs with the expected dimensions and their ZIP checks passed. Since removing mask references worked and replacing masks with a nonempty generated shape also worked, the observed rejection is tied to the **referenced empty mask content in this template**, not to changing image bytes in general or to the actual watchOS version. I have not established Apple's exact mask validation rule: it may involve nonempty coverage, time overlap, or another property. I cannot claim every nonblack mask is valid.
 
@@ -67,7 +68,7 @@ The successful `Deco-NoMasks` variant rewrote the XML plist through a property-l
 | GrateFace receives an unsupported template. | It rejects another face bundle, unknown archive entries, multiple-photo layouts, missing referenced assets, or layouts that could leave original artwork behind. | Inspect the face in GrateFace Lab and investigate that format separately; do not silently copy private assets through. |
 | File generation succeeds but Watch import fails. | This remains possible. GrateFace Lab reports generation and Watch import separately. | Keep the generated file and the original template for comparison. A completed ZIP write is not an import guarantee. |
 
-GrateFace also reports mismatched artwork/mask sizes and invalid or unreadable images. It creates a unique temporary output URL itself; its internal writer also checks for an existing output or a path matching the input template. Archive, encoding, and file-system errors can propagate. These are **source-code contracts, not runtime-verified results**: no GrateFace or lab build or test has been run under this project's validation rules.
+GrateFace also reports mismatched artwork/mask sizes and invalid or unreadable images. It creates a unique temporary output URL itself; its internal writer also checks for an existing output or a path matching the input template. Archive, encoding, and file-system errors can propagate. The package was built and the mask-free writer path ran for `WriterImportTest.watchface`; the Lab and the listed error paths have not been run. On this Mac, HEIC encoding failed inside the restricted command sandbox, so the already-built generator was run with normal system access to produce the file.
 
 ## Foreground mask model
 
@@ -77,9 +78,9 @@ For a wallpaper without an intended clock overlap, use no mask reference. A blan
 
 ## Preview work and open questions
 
-The tested swaps replaced both snapshot PNGs with Deco artwork. The generated files could add, but those replacements were not a faithful framed Watch preview. GrateFace now draws a gray rim, black bezel, and rounded photo aperture for `snapshot.png`, with the same rounded aperture for `no_borders_snapshot.png`; neither includes a clock. This geometry was measured from a supplied Apple Photos export. Watch behavior with the new previews, alternate watch sizes, and whether Watch regenerates or caches either image still need device verification. The stale dog display should be revisited as part of that work.
+The tested swaps replaced both snapshot PNGs with Deco artwork. The generated files could add, but those replacements were not a faithful framed Watch preview. GrateFace now draws a gray rim, black bezel, and rounded photo aperture for `snapshot.png`, with the same rounded aperture for `no_borders_snapshot.png`; neither includes a clock. This geometry was measured from a supplied Apple Photos export. The `WriterImportTest.watchface` preview was inspected before import, and the face added and displayed on the watch. Preview behavior across watch sizes, and whether Watch regenerates or caches either image, still need device verification. The stale dog display should be revisited as part of that work.
 
-Other unanswered questions: different watch sizes and models; alternate time layouts and mask slots; how crop metadata affects arbitrary aspect ratios; multi-photo and shuffle faces; mask pixel requirements and edge treatment; whether fully renamed resource filenames import; whether a Swift-written archive from GrateFace imports exactly like the Python diagnostic archives; and the structures of other face bundles. `FaceArchiveInspector` can inventory other exports without treating them as Photos faces.
+Other unanswered questions: different watch sizes and models; alternate time layouts and mask slots; how crop metadata affects arbitrary aspect ratios; multi-photo and shuffle faces; mask pixel requirements and edge treatment in Swift-written files; whether fully renamed resource filenames import; and the structures of other face bundles. `FaceArchiveInspector` can inventory other exports without treating them as Photos faces.
 
 ## Platform boundary and evidence
 

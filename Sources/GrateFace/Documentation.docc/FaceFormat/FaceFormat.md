@@ -14,7 +14,7 @@ The package preserves the face style, complication configuration, resource names
 
 Apple's public API imports an existing `.watchface` file. I worked out the Photos archive writer from faces exported from my watch and tests on the device; Apple does not document an API for creating these files. Treat a successful ZIP write as a candidate for Watch import, not as proof that a watch accepts the face.
 
-In those device tests, referenced all-black mask PNGs caused a generic “current version of watchOS” rejection even though the original face and image-only replacements added on that same watch. Removing mask references or supplying a nonempty generated mask added successfully. This does not identify Apple's exact validation rule, and the Swift writer has not yet been device-tested.
+In the initial device tests, referenced all-black mask PNGs caused a generic “current version of watchOS” rejection even though the original face and image-only replacements added on that same watch. Removing mask references or supplying a nonempty generated mask added successfully. This does not identify Apple's exact validation rule. A later mask-free face produced by the Swift writer from the bundled seed was added and displayed on a watch; masked writer output and other configurations still need device tests.
 
 ## Topics
 
